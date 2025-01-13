@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import { Routes, Route} from 'react-router-dom';
 import "./App.css";
-import CountryCard from "./components/card/CountryCard";
+import Header from "./components/header/Header";
+import HomePage from "./pages/HomePage";
+import SavedCountries from "./pages/SavedCountries";
 
 function App() {
   // is useState as an empty array good?
@@ -12,7 +15,7 @@ function App() {
         const response = await fetch("https://restcountries.com/v3.1/all");
         const jsonData = await response.json();
         setCountries(jsonData);
-        console.log(countries);
+        // console.log(countries);
       } catch (error) {
         console.error("error fetching data from restcountries.com", error);
       }
@@ -22,7 +25,11 @@ function App() {
 
   return (
     <>
-      <CountryCard />
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage countries={countries} />}/>
+        <Route path="/saved-countries" element={<SavedCountries />}/>
+      </Routes>
     </>
   );
 }
