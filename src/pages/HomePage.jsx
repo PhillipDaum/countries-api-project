@@ -4,8 +4,8 @@ function HomePage({ countries }) {
   return (
     <>
       <h2>hello</h2>
-      {countries.map((country) => (
-          <CountryCard country={country} />
+      {countries.map((country, index) => (
+          <CountryCard key={index} country={country} />
       ))}
     </>
   );
