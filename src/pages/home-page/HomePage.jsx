@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 function HomePage({ countries }) {
 
   // figure out how to change grid to 1 col for mobile
+  // changed the mapped thing to be the 
   return (
     <>
       <Container>
