@@ -1,14 +1,28 @@
 import { useState, useEffect } from "react";
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/header/Header";
-import HomePage from "./pages/HomePage";
-import SavedCountries from "./pages/SavedCountries";
+import HomePage from "./pages/home-page/HomePage";
+import SavedCountries from "./pages/saved-countries/SavedCountries";
+
 
 function App() {
   // is useState as an empty array good?
   const [countries, setCountries] = useState([]);
-  // API call!
+
+  // filtered countries
+
+  // saved countries
+
+  const handleChange = (e) => {
+
+  }
+
+  const handleSubmit = (e) => {
+    
+  }
+
+  // API call
   useEffect(() => {
     const fetchCountryData = async () => {
       try {
@@ -26,10 +40,10 @@ function App() {
   return (
     <>
       <Header />
-      <Routes>
-        <Route path="/" element={<HomePage countries={countries} />}/>
-        <Route path="/saved-countries" element={<SavedCountries />}/>
-      </Routes>
+        <Routes>
+          <Route path="/" element={<HomePage countries={countries} />} />
+          <Route path="/saved-countries" element={<SavedCountries />} />
+        </Routes>
     </>
   );
 }
