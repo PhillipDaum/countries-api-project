@@ -4,31 +4,20 @@ import "./App.css";
 import Header from "./components/header/Header";
 import HomePage from "./pages/home-page/HomePage";
 import SavedCountries from "./pages/saved-countries/SavedCountries";
+import CountryPage from "./pages/country-page/CountryPage";
 
 
 function App() {
   // is useState as an empty array good?
   const [countries, setCountries] = useState([]);
 
-  // filtered countries
-
-  // saved countries
-
-  const handleChange = (e) => {
-
-  }
-
-  const handleSubmit = (e) => {
-    
-  }
-
   // API call
   useEffect(() => {
     const fetchCountryData = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
-        const jsonData = await response.json();
-        setCountries(jsonData);
+        const data = await response.json();
+        setCountries(data);
         // console.log(countries);
       } catch (error) {
         console.error("error fetching data from restcountries.com", error);
@@ -43,6 +32,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage countries={countries} />} />
           <Route path="/saved-countries" element={<SavedCountries />} />
+          {/* use react router methods to grab that value from the url */}
+          <Route path="/country-page/:oneCountry" element={<CountryPage countries={countries} />} />
         </Routes>
     </>
   );

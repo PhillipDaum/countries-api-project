@@ -1,5 +1,3 @@
-import Header from "../../components/header/Header"
-
 function SavedCountries() {
 
     return (

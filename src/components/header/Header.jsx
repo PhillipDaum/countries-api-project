@@ -8,6 +8,8 @@ import { faMoon as faRegularMoon } from "@fortawesome/free-regular-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { useColorMode } from "../ui/color-mode";
 
+// make it so that when it is the saved country pages the heart is solid
+
 function Header() {
   const { toggleColorMode, colorMode } = useColorMode();
 
