@@ -1,18 +1,19 @@
-function SavedCountries() {
+import { Grid, For } from "@chakra-ui/react";
+import CountryCard from "../../components/country-card/CountryCard";
 
-    return (
-      <>
-        <div className="saved-countries">
-          <h2>My Saved Countries</h2>
-          <div className="saved-country-container">
-            {/* map saved countries in here */}
-          </div>
-        </div>
-        <div className="user-profile">
-          {/* user profile object here */}
-        </div>
-      </>
-    )
-  }
-  
-  export default SavedCountries
+function SavedCountries({ userSavedCountries }) {
+  return (
+    <>
+      <h2>My Saved Countries</h2>
+      <Grid templateColumns="repeat(4, 1fr)" gap="3">
+        <For each={userSavedCountries}>
+          {(country, index) => <CountryCard key={index} country={country} />}
+        </For>
+      </Grid>
+
+      {/* user profile object here */}
+    </>
+  );
+}
+
+export default SavedCountries;

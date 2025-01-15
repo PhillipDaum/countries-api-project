@@ -10,7 +10,7 @@ import CountryPage from "./pages/country-page/CountryPage";
 function App() {
   // is useState as an empty array good?
   const [countries, setCountries] = useState([]);
-  const [userSavedCountries, setUserSavedCountries] = useState([]) // list of common names that they saved
+  const [userSavedCountries, setUserSavedCountries] = useState([])
 
   // API call
   useEffect(() => {
@@ -32,9 +32,9 @@ function App() {
       <Header />
         <Routes>
           <Route path="/" element={<HomePage countries={countries} />} />
-          <Route path="/saved-countries" element={<SavedCountries />} />
+          <Route path="/saved-countries" element={<SavedCountries userSavedCountries={userSavedCountries}/>} />
           {/* use react router methods to grab that value from the url */}
-          <Route path="/country-page/:oneCountry" element={<CountryPage countries={countries} />} />
+          <Route path="/country-page/:oneCountry" element={<CountryPage countries={countries} setUserSavedCountries={setUserSavedCountries}/>} />
         </Routes>
     </>
   );
