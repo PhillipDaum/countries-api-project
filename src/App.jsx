@@ -10,6 +10,7 @@ import CountryPage from "./pages/country-page/CountryPage";
 function App() {
   // is useState as an empty array good?
   const [countries, setCountries] = useState([]);
+  const [userSavedCountries, setUserSavedCountries] = useState([]) // list of common names that they saved
 
   // API call
   useEffect(() => {
