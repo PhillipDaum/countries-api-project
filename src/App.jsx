@@ -18,8 +18,9 @@ function App() {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
         const data = await response.json();
-        setCountries(data);
-        // console.log(countries);
+        // sorted alphabetically by common name 
+        const sorted = data.sort((a,b) => a.name.common.localeCompare(b.name.common))
+        setCountries(sorted);
       } catch (error) {
         console.error("error fetching data from restcountries.com", error);
       }
@@ -33,7 +34,6 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage countries={countries} />} />
           <Route path="/saved-countries" element={<SavedCountries userSavedCountries={userSavedCountries}/>} />
-          {/* use react router methods to grab that value from the url */}
           <Route path="/country-page/:oneCountry" element={<CountryPage countries={countries} setUserSavedCountries={setUserSavedCountries}/>} />
         </Routes>
     </>

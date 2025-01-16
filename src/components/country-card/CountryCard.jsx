@@ -1,33 +1,42 @@
 import { Link } from "react-router-dom";
-import { Card, Image } from "@chakra-ui/react";
-import "./CountryCard.css";
-
-// image of flag with no padding
-// can click the whole thing and it will go to the specific country page
+import { Box, Image, Text, Flex } from "@chakra-ui/react";
 
 function CountryCard({ country }) {
   return (
     <Link to={`/country-page/${country.name.common}`}>
-      <Card.Root>
-        <Card.Body>
-          <Image src={country.flags.svg} />
-          <div className="card-content">
-            <h3>{country.name.common}</h3>
-            <p>
-              <span className="bold">Population: </span>
+      <Box 
+        borderWidth="1px" 
+        borderRadius="lg" 
+        overflow="hidden" 
+        _hover={{ boxShadow: "lg", transform: "scale(1.05)", transition: "0.2s ease-in-out" }}
+      >
+        {/* Country Flag */}
+        <Image src={country.flags.svg} alt={`${country.name.common} flag`} w="100%" />
+
+        {/* Card Body */}
+        <Box p="4">
+          {/* Country Name */}
+          <Text fontSize="xl" fontWeight="bold" mb="2">
+            {country.name.common}
+          </Text>
+
+          {/* Details */}
+          <Flex direction="column" gap="1">
+            <Text fontSize="sm">
+              <Text as="span" fontWeight="semibold">Population: </Text>
               {country.population.toLocaleString()}
-            </p>
-            <p>
-              <span className="bold">Region: </span>
+            </Text>
+            <Text fontSize="sm">
+              <Text as="span" fontWeight="semibold">Region: </Text>
               {country.region}
-            </p>
-            <p>
-              <span className="bold">Capitol: </span>
-              {country.capital}
-            </p>
-          </div>
-        </Card.Body>
-      </Card.Root>
+            </Text>
+            <Text fontSize="sm">
+              <Text as="span" fontWeight="semibold">Capital: </Text>
+              {country.capital || "N/A"}
+            </Text>
+          </Flex>
+        </Box>
+      </Box>
     </Link>
   );
 }
