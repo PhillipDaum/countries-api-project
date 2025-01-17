@@ -5,7 +5,7 @@ import { Button } from "../../components/ui/button";
 
 // There are some layout issues on this page
 // The Save country button shold be up at the top
-// the flags aren't behaving correctly
+// the flags aren't behaving correctly 
 // the border countries squish up ontop of one another
 
 function CountryPage({ countries, setUserSavedCountries }) {

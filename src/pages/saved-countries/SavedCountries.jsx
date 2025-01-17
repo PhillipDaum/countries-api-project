@@ -13,7 +13,7 @@ import { Field } from "../../components/ui/field";
 import CountryCard from "../../components/country-card/CountryCard";
 
 // put in a box with padding
-// add reset to the form
+// conditional rendering isn't working correctly for userSavedCountries
 
 function SavedCountries({ userSavedCountries, setUserProfile }) {
   const { register, handleSubmit, reset } = useForm();
