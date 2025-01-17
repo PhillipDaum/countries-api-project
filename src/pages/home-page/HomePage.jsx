@@ -12,9 +12,12 @@ import {
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function HomePage({ countries }) {
-  // figure out how to change grid to 1 col for mobile
+// Issues: 
+// Change background color to the one's from the thing
+// the same bug that I listed on the individual country page - could it be from here? 
 
+
+function HomePage({ countries }) {
   const [userSelectedCountries, setUserSelectedCountries] = useState([]);
 
   useEffect(() => {
@@ -33,6 +36,7 @@ function HomePage({ countries }) {
         new RegExp(e.target.value, "i").test(item.name.official)
       )
     );
+    
   const handleRegionChange = (e) =>
     setUserSelectedCountries(
       countries.filter((item) => item.region === e.target.value)
@@ -42,7 +46,7 @@ function HomePage({ countries }) {
     <>
       <Box padding="3">
         <Flex justify="space-between" paddingBottom="2">
-          {/* Search Input Form */}
+          {/* These are in two different forms for layout, maybe there is a better way */}
           <form>
             <Field
               invalid={!!errors.framework}

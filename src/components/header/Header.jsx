@@ -8,6 +8,10 @@ import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 import { useColorMode } from "../ui/color-mode";
 
+// Words squish up on small screen sizes
+// so maybe add grid or something so they stack at that size
+// also, should it be sticky?
+
 function Header() {
   // for light and dark mode
   const { toggleColorMode, colorMode } = useColorMode();
