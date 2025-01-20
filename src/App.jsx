@@ -7,10 +7,13 @@ import SavedCountries from "./pages/SavedCountries";
 import CountryPage from "./pages/CountryPage";
 // import countryData from '../data.json'
 
+// add condition for if API call doesn't work
+
+
 function App() {
   // Global variables
   const [countries, setCountries] = useState([]);
-  const [userSavedCountries, setUserSavedCountries] = useState([]);
+  const [userSavedCountries, setUserSavedCountries] = useState(null);
   const [userProfile, setUserProfile] = useState({});
 
   // API call

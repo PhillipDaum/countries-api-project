@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Image, Flex, Card, Box, Text, SimpleGrid } from "@chakra-ui/react";
 import { Button } from "../components/ui/button";
 
-// back button arrow is not aligned correctly
 // save button is in wrong spot for mobile
-// remove border
-// add border radius to flag 
+// change button color
 
 function CountryPage({ countries, setUserSavedCountries }) {
   const { oneCountry } = useParams();
@@ -54,12 +54,13 @@ function CountryPage({ countries, setUserSavedCountries }) {
               aria-label={`Save ${country.name.common} to your saved countries`}
               maxW="5rem"
             >
-              ← Back
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
             </Button>
           </Link>
           <Box paddingTop="1rem">
             <Card.Root
               display="flex"
+              border="none"
               flexDirection={{ base: "column", md: "row" }} // "column" for small screens, "row" for larger screens
             >
               <Flex
@@ -69,9 +70,9 @@ function CountryPage({ countries, setUserSavedCountries }) {
               >
                 <Image
                   width="100%"
-                  // there is no placeholder yet
+                  borderRadius=".5rem"
                   // what are the question marks for?
-                  src={country.flags?.svg || "placeholder-image-url"}
+                  src={country.flags?.svg || "/img/no-image.jpg"}
                   alt={country.flags?.alt || "Flag not available"}
                 />
               </Flex>

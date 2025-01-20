@@ -13,7 +13,6 @@ import { Field } from "../components/ui/field";
 import CountryCard from "../components/CountryCard";
 
 // put in a box with padding
-// conditional rendering isn't working correctly for userSavedCountries
 
 function SavedCountries({ userSavedCountries, setUserProfile }) {
   const { register, handleSubmit, reset } = useForm();
@@ -28,7 +27,7 @@ function SavedCountries({ userSavedCountries, setUserProfile }) {
         My Saved Countries
       </Heading>
       {!userSavedCountries ? (
-        <p>nothing yet</p>
+        <p>Your saved countries will show up here!</p>
       ) : (
         <Grid templateColumns="repeat(4, 1fr)" gap="3">
           <For each={userSavedCountries}>
