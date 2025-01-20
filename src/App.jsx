@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import Header from "./components/header/Header";
-import HomePage from "./pages/home-page/HomePage";
-import SavedCountries from "./pages/saved-countries/SavedCountries";
-import CountryPage from "./pages/country-page/CountryPage";
+import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
+import SavedCountries from "./pages/SavedCountries";
+import CountryPage from "./pages/CountryPage";
+// import countryData from '../data.json'
 
 function App() {
   // Global variables

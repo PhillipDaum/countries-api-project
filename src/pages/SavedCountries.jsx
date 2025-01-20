@@ -9,8 +9,8 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { Field } from "../../components/ui/field";
-import CountryCard from "../../components/country-card/CountryCard";
+import { Field } from "../components/ui/field";
+import CountryCard from "../components/CountryCard";
 
 // put in a box with padding
 // conditional rendering isn't working correctly for userSavedCountries

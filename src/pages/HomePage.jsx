@@ -1,21 +1,21 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import CountryCard from "../../components/country-card/CountryCard";
-import { InputGroup } from "../../components/ui/input-group";
+import CountryCard from "../components/CountryCard";
+import { InputGroup } from "../components/ui/input-group";
 import { SimpleGrid, For, Flex, Input, Box } from "@chakra-ui/react";
-import { Field } from "../../components/ui/field";
+import { Field } from "../components/ui/field";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {
   NativeSelectField,
   NativeSelectRoot,
-} from "../../components/ui/native-select";
+} from "../components/ui/native-select";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// Issues: 
-// Change background color to the one's from the thing
-// the same bug that I listed on the individual country page - could it be from here? 
-
+// Issues:
+// Change background color to the one's from the figma
+// The NativeSelectField has a background of white with white writing in darkmode on chrome in Linux
+// Also, it does not set back all countries. I would like it to do that for Region (all) or something like that
 
 function HomePage({ countries }) {
   const [userSelectedCountries, setUserSelectedCountries] = useState([]);
@@ -36,7 +36,7 @@ function HomePage({ countries }) {
         new RegExp(e.target.value, "i").test(item.name.official)
       )
     );
-    
+
   const handleRegionChange = (e) =>
     setUserSelectedCountries(
       countries.filter((item) => item.region === e.target.value)
@@ -53,7 +53,7 @@ function HomePage({ countries }) {
               errorText={errors.framework?.message}
             >
               <InputGroup
-              startElement={<FontAwesomeIcon icon={faMagnifyingGlass} />}
+                startElement={<FontAwesomeIcon icon={faMagnifyingGlass} />}
               >
                 <Input
                   {...register("search", {
