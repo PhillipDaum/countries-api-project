@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { Image, Flex, Card, Box, Text, SimpleGrid } from "@chakra-ui/react";
+import { Image, Flex, Card, Box, Text } from "@chakra-ui/react";
 import { Button } from "../components/ui/button";
 
 // save button is in wrong spot for mobile
@@ -72,7 +72,7 @@ function CountryPage({ countries, setUserSavedCountries }) {
                   width="100%"
                   borderRadius=".5rem"
                   // what are the question marks for?
-                  src={country.flags?.svg || "/img/no-image.jpg"}
+                  src={country.flags?.svg || "/no-image.jpg"}
                   alt={country.flags?.alt || "Flag not available"}
                 />
               </Flex>

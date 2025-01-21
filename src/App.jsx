@@ -5,9 +5,13 @@ import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import SavedCountries from "./pages/SavedCountries";
 import CountryPage from "./pages/CountryPage";
-// import countryData from '../data.json'
+import { Box } from "@chakra-ui/react";
+import countriesData from '../data.js'
 
-// add condition for if API call doesn't work
+// Saved Country page is a little janky
+// backgrounds on this and some other pages don't cover VH
+// if you go from saved countries back to the homepage by clicking "Where in the world?" all the countries are gone!
+// same if you click an individual country. what did I do! 
 
 
 function App() {
@@ -29,16 +33,16 @@ function App() {
         setCountries(sorted);
       } catch (error) {
         console.error("error fetching data from restcountries.com", error);
+        setCountries(countriesData)
       }
     };
     fetchCountryData();
   }, []);
 
-  console.log("profile", userProfile)
-
   return (
     <>
       <Header />
+      <Box bg="bg.muted">
       <Routes>
         <Route path="/" element={<HomePage countries={countries} />} />
         <Route
@@ -55,6 +59,7 @@ function App() {
           }
         />
       </Routes>
+      </Box>
     </>
   );
 }

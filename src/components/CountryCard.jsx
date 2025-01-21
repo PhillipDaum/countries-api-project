@@ -5,7 +5,7 @@ function CountryCard({ country }) {
   return (
     <Link to={`/country-page/${country.name.common}`}>
       <Box 
-        borderWidth="1px" 
+        bg="bg.panel"
         borderRadius="lg" 
         overflow="hidden" 
         _hover={{ boxShadow: "lg", transform: "scale(1.05)", transition: "0.2s ease-in-out" }}

@@ -5,31 +5,58 @@ import { InputGroup } from "../components/ui/input-group";
 import { SimpleGrid, For, Flex, Input, Box } from "@chakra-ui/react";
 import { Field } from "../components/ui/field";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { createListCollection } from "@chakra-ui/react";
 import {
-  NativeSelectField,
-  NativeSelectRoot,
-} from "../components/ui/native-select";
+  SelectContent,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "../components/ui/select";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// Issues:
-// Change background color to the one's from the figma
-// The NativeSelectField has a background of white with white writing in darkmode on chrome in Linux
-// Also, it does not set back all countries. I would like it to do that for Region (all) or something like that
-
 function HomePage({ countries }) {
-  const [userSelectedCountries, setUserSelectedCountries] = useState([]);
 
+  // SELECTED COUNTRIES WHICH DISPLAY
+  const [userSelectedCountries, setUserSelectedCountries] = useState([]);
+  // initially sets userSelectedCountries to countries (from the API)
   useEffect(() => {
     setUserSelectedCountries(countries);
   }, [countries]);
 
-  // Destructuring
+
+  // REGION SELECTION
+  // Works with createListCollection and Select component
+  const [value, setValue] = useState(''); // value of the select component
+  const regions = createListCollection({
+    items: [
+      { label: "All Regions", value: "All Regions" },
+      { label: "Africa", value: "Africa" },
+      { label: "Americas", value: "Americas" },
+      { label: "Antarctic", value: "Antarctic" },
+      { label: "Asia", value: "Asia" },
+      { label: "Europe", value: "Europe" },
+      { label: "Oceania", value: "Oceania" },
+    ],
+  });
+  // This useEffect is causing issues with other pages - look in console. 
+  useEffect(() => {
+    if (value[0] === "All Regions" || value === '') { 
+      setUserSelectedCountries(countries)
+    } else {
+      setUserSelectedCountries( countries.filter((item) => item.region === value[0]))
+    }
+  }, [value, countries])
+
+
+  // SEARCH COMPONENT
+  // Destructuring react-hook-form
   const {
     register,
     formState: { errors },
   } = useForm();
-
+  //Search for a country
   const handleSearch = (e) =>
     setUserSelectedCountries(
       countries.filter((item) =>
@@ -37,10 +64,6 @@ function HomePage({ countries }) {
       )
     );
 
-  const handleRegionChange = (e) =>
-    setUserSelectedCountries(
-      countries.filter((item) => item.region === e.target.value)
-    );
 
   return (
     <>
@@ -67,21 +90,23 @@ function HomePage({ countries }) {
           </form>
           <form>
             <Field>
-              <NativeSelectRoot>
-                <NativeSelectField
-                  placeholder="Region"
-                  name="region"
-                  items={[
-                    "Africa",
-                    "Americas",
-                    "Antarctic",
-                    "Asia",
-                    "Europe",
-                    "Oceania",
-                  ]}
-                  onChange={handleRegionChange}
-                />
-              </NativeSelectRoot>
+              <SelectRoot
+                collection={regions}
+                value={value}
+                width="10rem"
+                onValueChange={(e) => setValue(e.value)}
+              >
+                <SelectTrigger>
+                  <SelectValueText placeholder="Select Region" />
+                </SelectTrigger>
+                <SelectContent>
+                  {regions.items.map((region) => (
+                    <SelectItem item={region} key={region.value}>
+                      {region.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectRoot>
             </Field>
           </form>
         </Flex>

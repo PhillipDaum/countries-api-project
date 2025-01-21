@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router";
-import { Heading, Flex } from "@chakra-ui/react";
+import { Heading, Flex, Box } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon as faSolidMoon } from "@fortawesome/free-solid-svg-icons";
 import { faMoon as faRegularMoon } from "@fortawesome/free-regular-svg-icons";
@@ -18,7 +18,7 @@ function Header() {
   const isSavedCountriesPage = location.pathname === "/saved-countries";
 
   return (
-    <header className="header">
+    <Box shadow="lg" bg="bg.panel" as="header">
         <Flex 
           as="nav"
           padding="1rem"
@@ -48,7 +48,7 @@ function Header() {
             </Heading>
           </Flex>
         </Flex>
-    </header>
+    </Box>
   );
 }
 
