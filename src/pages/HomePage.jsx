@@ -17,16 +17,11 @@ import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function HomePage({ countries }) {
-
   // SELECTED COUNTRIES WHICH DISPLAY
   const [userSelectedCountries, setUserSelectedCountries] = useState([]);
-  // initially sets userSelectedCountries to countries (from the API)
-  useEffect(() => {
-    setUserSelectedCountries(countries);
-  }, [countries]);
 
 
-  // REGION SELECTION
+  // REGION SELECTION, ALSO initially sets userSelectedCountries
   // Works with createListCollection and Select component
   const [value, setValue] = useState(''); // value of the select component
   const regions = createListCollection({
@@ -40,7 +35,7 @@ function HomePage({ countries }) {
       { label: "Oceania", value: "Oceania" },
     ],
   });
-  // This useEffect is causing issues with other pages - look in console. 
+  // initially sets userSelectedCountries
   useEffect(() => {
     if (value[0] === "All Regions" || value === '') { 
       setUserSelectedCountries(countries)

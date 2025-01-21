@@ -9,15 +9,12 @@ import { Box } from "@chakra-ui/react";
 import countriesData from '../data.js'
 
 // Saved Country page is a little janky
-// backgrounds on this and some other pages don't cover VH
-// if you go from saved countries back to the homepage by clicking "Where in the world?" all the countries are gone!
-// same if you click an individual country. what did I do! 
-
 
 function App() {
   // Global variables
   const [countries, setCountries] = useState([]);
-  const [userSavedCountries, setUserSavedCountries] = useState(null);
+  // issue with this not being null and the conditional rendering on the saved countries page
+  const [userSavedCountries, setUserSavedCountries] = useState([]);
   const [userProfile, setUserProfile] = useState({});
 
   // API call
@@ -42,7 +39,7 @@ function App() {
   return (
     <>
       <Header />
-      <Box bg="bg.muted">
+      <Box bg="bg.muted" height="vh">
       <Routes>
         <Route path="/" element={<HomePage countries={countries} />} />
         <Route
