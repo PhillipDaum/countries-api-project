@@ -51,7 +51,9 @@ function HomePage({ countries }) {
     register,
     formState: { errors },
   } = useForm();
-  //Search for a country
+  // Search for a country
+  // the "i" in the regex after makes it ignore case
+  // .test() is used with regular expressions to check if a string matches that pattern, returns boolean
   const handleSearch = (e) =>
     setUserSelectedCountries(
       countries.filter((item) =>
