@@ -9,6 +9,7 @@ import { Box } from "@chakra-ui/react";
 import countriesData from '../data.js'
 
 // Saved Country page is a little janky
+// API call isn't working on version I launched in netlify?
 
 function App() {
   // Global variables
