@@ -135,7 +135,8 @@ function CountryPage({ countries, setUserSavedCountries }) {
                             key={item.name.common}
                             to={`/country-page/${item.name.common}`}
                           >
-                            <Button>{item.name.common}</Button>
+                            {/* adding colors and borders */}
+                            <Button bg="gray.focusRing" >{item.name.common}</Button>
                           </Link>
                         ))
                       )}

@@ -28,6 +28,7 @@ function SavedCountries({ userSavedCountries, setUserProfile }) {
         <Heading as="h2" size="xl">
           My Saved Countries
         </Heading>
+        {/* HERE IS A BUG */}
         { !userSavedCountries ? (
           <p>Your saved countries will show up here!</p>
         ) : (

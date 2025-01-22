@@ -8,7 +8,6 @@ import CountryPage from "./pages/CountryPage";
 import { Box } from "@chakra-ui/react";
 import countriesData from '../data.js'
 
-// Saved Country page is a little janky
 
 function App() {
   // Global variables
