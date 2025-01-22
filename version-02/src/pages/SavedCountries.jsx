@@ -22,17 +22,18 @@ function SavedCountries({ userSavedCountries }) {
   const onSubmit = (data) => {
     if (!userProfile) { 
       localStorage.setItem("profile", JSON.stringify(data));
+      setUserProfile(data);
     } 
   };
 
   // INTERACT WITH LOCAL STORAGE
+  // still confused about this. So if they go back to this page, it will 
+  // prevent them from doing it again and make sure that the data is
+  // the same as the local storage data
   useEffect(() => {
-       // returning user
       let profileInfo = JSON.parse(localStorage.getItem("profile"));
-      // set user profile here
-      console.log("profileInfo", profileInfo)
       setUserProfile(profileInfo);
-  }, []); // is this just going to go each time the page loads? 
+  }, []);
 
   return (
     <>
@@ -41,9 +42,7 @@ function SavedCountries({ userSavedCountries }) {
           My Saved Countries
         </Heading>
         {/* HERE IS A BUG */}
-        {!userSavedCountries ? (
-          <p>Your saved countries will show up here!</p>
-        ) : (
+        {userSavedCountries && userSavedCountries.length > 0 ? (
           <Grid templateColumns="repeat(4, 1fr)" gap="3">
             <For each={userSavedCountries}>
               {(country, index) => (
@@ -51,9 +50,9 @@ function SavedCountries({ userSavedCountries }) {
               )}
             </For>
           </Grid>
-        )}
-        {/* BUG, I did mine a little differently,  */}
-        {/* user profile */}
+       ) : (
+          <p>Your saved countries will show up here!</p>
+        ) }
         { !userProfile ? (
           <form onSubmit={handleSubmit(onSubmit)} action="">
           <Fieldset.Root size="lg" maxW="md">

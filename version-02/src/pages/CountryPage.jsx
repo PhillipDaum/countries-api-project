@@ -109,7 +109,8 @@ function CountryPage({ countries, setUserSavedCountries }) {
                         <Text as="span" fontWeight="semibold">
                           Capital:{" "}
                         </Text>
-                        {country.capital || "N/A"}
+                        {country.capital}
+                         {/* {country.capital.join(", ")} */}
                       </Text>
                       <Text fontSize="sm">
                         <Text as="span" fontWeight="semibold">
