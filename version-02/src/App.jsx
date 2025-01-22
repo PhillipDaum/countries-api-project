@@ -8,6 +8,7 @@ import CountryPage from "./pages/CountryPage";
 import { Box } from "@chakra-ui/react";
 import countriesData from '../data.js'
 
+// issue with the capitals
 
 function App() {
   // Global variables

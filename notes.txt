@@ -1,3 +1,4 @@
 - South Africa has multiple capitols, put a condition in for that. Same for Palestine.
     ** fixed in V2
+    ** now, not fixed. help! 
 - Laura had a dropdown for the form, maybe I can control this so it makes sure that its a country in the list 
