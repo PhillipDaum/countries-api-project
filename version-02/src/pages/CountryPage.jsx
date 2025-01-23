@@ -6,7 +6,7 @@ import { Image, Flex, Card, Box, Text } from "@chakra-ui/react";
 import { Button } from "../components/ui/button";
 
 // save button is in wrong spot for mobile
-// change button color
+// change button colors
 
 function CountryPage({ countries, setUserSavedCountries }) {
   const { oneCountry } = useParams();
@@ -109,8 +109,7 @@ function CountryPage({ countries, setUserSavedCountries }) {
                         <Text as="span" fontWeight="semibold">
                           Capital:{" "}
                         </Text>
-                        {country.capital}
-                         {/* {country.capital.join(", ")} */}
+                        { country.name.common === "South Africa" || country.name.common === "Palestine" ? country.capital.join(", ") : country.capital}
                       </Text>
                       <Text fontSize="sm">
                         <Text as="span" fontWeight="semibold">

@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { Box, Image, Text, Flex } from "@chakra-ui/react";
 
-// add an onClick to the link that pushes to the local storage count and then country name and the number
-
 function CountryCard({ country }) {
   const countSearches = () => {
     let keyName = country.fifa + "count";
@@ -60,9 +58,7 @@ function CountryCard({ country }) {
               <Text as="span" fontWeight="semibold">
                 Capital:{" "}
               </Text>
-              {/* why does this not work sometimes? It even throws an error with the undefined */}
-              {/* {country.capital.join(", ") || "N/A"} */}
-              {/* {country.capital} */}
+              { country.name.common === "South Africa" || country.name.common === "Palestine" ? country.capital.join(", ") : country.capital}
             </Text>
           </Flex>
         </Box>

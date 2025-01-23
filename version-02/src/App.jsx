@@ -13,7 +13,6 @@ import countriesData from '../data.js'
 function App() {
   // Global variables
   const [countries, setCountries] = useState([]);
-  // issue with this not being null and the conditional rendering on the saved countries page
   const [userSavedCountries, setUserSavedCountries] = useState([]);
 
 

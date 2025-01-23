@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { Field } from "../components/ui/field";
 import CountryCard from "../components/CountryCard";
 
+// fix styling issues, padding between components
 
 function SavedCountries({ userSavedCountries }) {
   const { register, handleSubmit } = useForm();
@@ -27,9 +28,6 @@ function SavedCountries({ userSavedCountries }) {
   };
 
   // INTERACT WITH LOCAL STORAGE
-  // still confused about this. So if they go back to this page, it will 
-  // prevent them from doing it again and make sure that the data is
-  // the same as the local storage data
   useEffect(() => {
       let profileInfo = JSON.parse(localStorage.getItem("profile"));
       setUserProfile(profileInfo);
