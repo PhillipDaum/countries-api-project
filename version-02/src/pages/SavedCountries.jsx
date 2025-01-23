@@ -8,6 +8,7 @@ import {
   Input,
   Stack,
   Textarea,
+  Text,
   Box,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
@@ -15,10 +16,12 @@ import { Field } from "../components/ui/field";
 import CountryCard from "../components/CountryCard";
 
 // fix styling issues, padding between components
+// make welcome look better
 
-function SavedCountries({ userSavedCountries }) {
+function SavedCountries({ countries }) {
   const { register, handleSubmit } = useForm();
   const [userProfile, setUserProfile] = useState(null);
+  const [userSavedCountries, setUserSavedCountries] = useState(null);
   
   const onSubmit = (data) => {
     if (!userProfile) { 
@@ -28,18 +31,27 @@ function SavedCountries({ userSavedCountries }) {
   };
 
   // INTERACT WITH LOCAL STORAGE
+  // would it be better for these to be in two separate useEffects? 
   useEffect(() => {
+    if (localStorage.getItem("profile")) {
       let profileInfo = JSON.parse(localStorage.getItem("profile"));
       setUserProfile(profileInfo);
-  }, []);
+    };
+    if (localStorage.getItem("savedCountries")){
+      console.log("it goes")
+      let savedCountries = JSON.parse(localStorage.getItem("savedCountries"));
+      savedCountries = countries.filter((item) => savedCountries.includes(item.name.common))
+      setUserSavedCountries(savedCountries)
+    }
+  }, [countries]);
+
 
   return (
     <>
-      <Box display="flex" padding="3" flexDirection="column">
+      <Box display="flex" padding="4" flexDirection="column" height="vh" gap="8">
         <Heading as="h2" size="xl">
           My Saved Countries
         </Heading>
-        {/* HERE IS A BUG */}
         {userSavedCountries && userSavedCountries.length > 0 ? (
           <Grid templateColumns="repeat(4, 1fr)" gap="3">
             <For each={userSavedCountries}>
@@ -53,12 +65,12 @@ function SavedCountries({ userSavedCountries }) {
         ) }
         { !userProfile ? (
           <form onSubmit={handleSubmit(onSubmit)} action="">
-          <Fieldset.Root size="lg" maxW="md">
+          <Fieldset.Root size="lg" maxW="lg" midW="md">
             <Stack>
               <Fieldset.Legend>My Profile</Fieldset.Legend>
             </Stack>
             <Fieldset.Content>
-              <Field>
+              <Field >
                 <Input
                   {...register("fullName", { required: true })}
                   placeholder="Full Name"
@@ -90,9 +102,8 @@ function SavedCountries({ userSavedCountries }) {
           </Fieldset.Root>
         </form>
         ) : (
-          <p>hi {userProfile.fullName}</p>
+          <Text fontSize="lg">Welcome {userProfile.fullName}</Text>
         )}
-
       </Box>
     </>
   );

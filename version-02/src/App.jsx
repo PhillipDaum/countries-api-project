@@ -8,13 +8,9 @@ import CountryPage from "./pages/CountryPage";
 import { Box } from "@chakra-ui/react";
 import countriesData from '../data.js'
 
-// issue with the capitals
 
 function App() {
-  // Global variables
   const [countries, setCountries] = useState([]);
-  const [userSavedCountries, setUserSavedCountries] = useState([]);
-
 
   // API call
   useEffect(() => {
@@ -44,14 +40,13 @@ function App() {
         <Route path="/" element={<HomePage countries={countries} />} />
         <Route
           path="/saved-countries"
-          element={<SavedCountries userSavedCountries={userSavedCountries} />}
+          element={<SavedCountries countries={countries} />}
         />
         <Route
           path="/country-page/:oneCountry"
           element={
             <CountryPage
               countries={countries}
-              setUserSavedCountries={setUserSavedCountries}
             />
           }
         />

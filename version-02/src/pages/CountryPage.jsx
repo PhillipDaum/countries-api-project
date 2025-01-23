@@ -8,7 +8,7 @@ import { Button } from "../components/ui/button";
 // save button is in wrong spot for mobile
 // change button colors
 
-function CountryPage({ countries, setUserSavedCountries }) {
+function CountryPage({ countries }) {
   const { oneCountry } = useParams();
   const [country, setCountry] = useState(null);
   const [borderCountries, setBorderCountries] = useState([]);
@@ -25,18 +25,19 @@ function CountryPage({ countries, setUserSavedCountries }) {
     }
   }, [country]);
 
-  const handleSetUserSavedCountries = () => {
-    if (country) {
-      setUserSavedCountries((prevData) => {
-        if (
-          prevData.some(
-            (savedCountry) => savedCountry.name.common === country.name.common
-          )
-        ) {
-          return prevData;
-        }
-        return [...prevData, country];
-      });
+  const saveCountries = () => {
+    if (localStorage.getItem("savedCountries")){
+      let savedCountriesLocal = JSON.parse(localStorage.getItem("savedCountries"));
+      if (savedCountriesLocal.includes(country.name.common)){
+        console.log("you already saved this country")
+        // maybe add a toast or something to let them know
+      } else {
+        let updatedData = JSON.stringify([...savedCountriesLocal, country.name.common])
+        localStorage.setItem("savedCountries", updatedData)
+      }
+    } else {
+      let savedCountriesArrStr = `[\"${country.name.common}\"]`;
+      localStorage.setItem("savedCountries", savedCountriesArrStr)
     }
   };
 
@@ -87,7 +88,7 @@ function CountryPage({ countries, setUserSavedCountries }) {
                       <Flex justifyContent="space-between" gap="1rem" paddingBottom="1rem">
                         <Card.Title>{country.name.common}</Card.Title>
                         <Button
-                          onClick={handleSetUserSavedCountries}
+                          onClick={saveCountries}
                           aria-label={`Save ${country.name.common} to your saved countries`}
                         >
                           Save Country
