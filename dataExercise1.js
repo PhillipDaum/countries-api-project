@@ -233,7 +233,7 @@ const customers = [ // customers who make a purchase
 const jill = {
     name: "Jill Anderson",
     jobTitle: "UI Designer",
-    quote: "I'm looking for a site that will simplify the planning of my business trips."
+    quote: "I'm looking for a site that will simplify the planning of my business trips.",
     age: 26,
     status: "single",
     lication: "Brooklyn",
