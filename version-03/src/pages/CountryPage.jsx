@@ -49,10 +49,11 @@ function CountryPage({ countries, database }) {
     }
   };
 
-  // updates saved countries from database
+  // updates country counts from database
   // it works but the console log only works the second time  
   useEffect(() => {
     onValue(ref(database, "counts/"), (snapshot) => {
+      console.log(snapshot.val())
       setCountryCounts(snapshot.val());
     });
     console.log("country counts", countryCounts);
@@ -137,7 +138,7 @@ function CountryPage({ countries, database }) {
                           Searched For:{" "}
                         </Text>
                         {/* change, I will need a variable or something to do this. This is for a later date */}
-                        { country.fifa in countryCounts ? countryCounts[country.fifa] : "0" }
+                        { country.name.common in countryCounts ? countryCounts[country.name.common] : "0" }
                       </Text>
                     </Box>
                   </Card.Body>

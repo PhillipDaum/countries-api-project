@@ -4,8 +4,9 @@ import { Box, Image, Text, Flex } from "@chakra-ui/react";
 import { ref, onValue, set } from "firebase/database";
 
 function CountryCard({ country, database }) {
+  // maybe the bug is those that don't have Fifa codes, use common name
   const countSearches = () => {
-    let keyName = country.fifa;
+    let keyName = country.name.common;
     let value;
     onValue(ref(database, "counts/" + `${keyName}/`), (snapshot) => {
       value = snapshot.val();

@@ -31,21 +31,21 @@ function App() {
   const database = getDatabase(app);
 
   // API call
+  const fetchCountryData = async () => {
+    try {
+      const response = await fetch("https://restcountries.com/v3.1/all");
+      const data = await response.json();
+      // sorted alphabetically by common name
+      const sorted = data.sort((a, b) =>
+        a.name.common.localeCompare(b.name.common)
+      );
+      setCountries(sorted);
+    } catch (error) {
+      console.error("error fetching data from restcountries.com", error);
+      setCountries(countriesData);
+    }
+  };
   useEffect(() => {
-    const fetchCountryData = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
-        // sorted alphabetically by common name
-        const sorted = data.sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
-        );
-        setCountries(sorted);
-      } catch (error) {
-        console.error("error fetching data from restcountries.com", error);
-        setCountries(countriesData);
-      }
-    };
     fetchCountryData();
   }, []);
 
