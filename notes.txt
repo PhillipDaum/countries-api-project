@@ -1,0 +1,7 @@
+-- For Countries page 
+---- authentication through firebase SDK
+---- both federated login and the 
+---- maybe some analytics stuff 
+---- then figure out how to hide API key for deployment! 
+------ and add some rules to the database
+------ I could also comment out really well in the readme what stuff is happening

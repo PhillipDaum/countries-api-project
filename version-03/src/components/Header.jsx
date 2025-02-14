@@ -30,6 +30,13 @@ function Header() {
             <Link to="/">Where in the World?</Link>
           </Heading>
           <Flex flexDirection="row" gap="1rem">
+          <Heading as="h2" size="lg">
+            {/* add a condition to this */}
+            {/* When the user is logged in, it will show option to log out */}
+            <Link to="/login">
+              Sign up/in
+            </Link>
+          </Heading>
             <Heading as="h2" size="lg">
               <Link to="/saved-countries">
                 <FontAwesomeIcon

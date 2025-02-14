@@ -9,6 +9,7 @@ import { Box } from "@chakra-ui/react";
 import countriesData from "../data.js";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import LoginPage from "./pages/LoginPage";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -25,6 +26,9 @@ const firebaseConfig = {
 
 function App() {
   const [countries, setCountries] = useState([]);
+
+  // ADD isLoggedIn IN VARIABLE, so it can be used by both header and login page
+  // or maybe this comes from the SDK
 
   // Firebase
   const app = initializeApp(firebaseConfig);
@@ -60,6 +64,7 @@ function App() {
             path="/saved-countries"
             element={<SavedCountries countries={countries} database={database}/>}
           />
+          <Route path="/login" element={<LoginPage />}/>
           <Route
             path="/country-page/:oneCountry"
             element={<CountryPage countries={countries} database={database} />}

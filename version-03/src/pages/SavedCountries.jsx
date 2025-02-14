@@ -24,6 +24,8 @@ function SavedCountries({ countries, database }) {
 
   const onSubmit = (data) => {
     if (!userProfile) {
+      // this is gonna have to change when the user has authentication and stuff 
+      // anything with this number will have to change
       set(ref(database, "users/" + 1), {
         // add numbering system later
         fullName: data.fullName,
@@ -100,6 +102,7 @@ function SavedCountries({ countries, database }) {
         {!userProfile ? (
           <form onSubmit={handleSubmit(onSubmit)} action="">
             <Fieldset.Root size="lg" maxW="lg" minW="md">
+              {/* maybe remove stack component */}
               <Stack>
                 <Fieldset.Legend>My Profile</Fieldset.Legend>
               </Stack>
@@ -114,7 +117,7 @@ function SavedCountries({ countries, database }) {
                   <Input
                     {...register("email", { required: true })}
                     placeholder="email"
-                    type="Email"
+                    type="email"
                   />
                 </Field>
                 <Field>
