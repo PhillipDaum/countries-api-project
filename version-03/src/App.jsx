@@ -9,6 +9,7 @@ import { Box } from "@chakra-ui/react";
 import countriesData from "../data.js";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import { getAuth } from "firebase/auth"
 import LoginPage from "./pages/LoginPage";
 
 // Your web app's Firebase configuration
@@ -33,8 +34,9 @@ function App() {
   // Firebase
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
+  const auth = getAuth(app)
 
-  // API call
+  // Countries API call
   const fetchCountryData = async () => {
     try {
       const response = await fetch("https://restcountries.com/v3.1/all");
@@ -64,7 +66,7 @@ function App() {
             path="/saved-countries"
             element={<SavedCountries countries={countries} database={database}/>}
           />
-          <Route path="/login" element={<LoginPage />}/>
+          <Route path="/login" element={<LoginPage auth={auth}/>}/>
           <Route
             path="/country-page/:oneCountry"
             element={<CountryPage countries={countries} database={database} />}
