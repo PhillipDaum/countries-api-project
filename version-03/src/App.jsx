@@ -9,7 +9,7 @@ import { Box } from "@chakra-ui/react";
 import countriesData from "../data.js";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
-import { getAuth } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import LoginPage from "./pages/LoginPage";
 
 // Your web app's Firebase configuration
@@ -27,10 +27,10 @@ const firebaseConfig = {
 
 function App() {
   const [countries, setCountries] = useState([]);
+  // How will I check to see if the user is signed in? 
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
-  // ADD isLoggedIn IN VARIABLE, so it can be used by both header and login page
-  // or maybe this comes from the SDK
-
+  
   // Firebase
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);

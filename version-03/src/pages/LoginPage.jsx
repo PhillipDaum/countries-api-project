@@ -10,36 +10,44 @@ import {
 } from "@chakra-ui/react";
 import { Field } from "../components/ui/field";
 import { Switch } from "../components/ui/switch";
-import {
-  PasswordInput,
-  PasswordStrengthMeter,
-} from "../components/ui/password-input";
+import { PasswordInput } from "../components/ui/password-input";
 import { useForm } from "react-hook-form";
-import { signInWithEmailAndPassword, connectAuthEmulator } from "firebase/auth";
-// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-// I need to install other firebase dependency for the above to work
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
-// Sign up or sign in flow
-// may be able to use something like result.user to see if user is already signed in.
 
 function LoginPage({ auth }) {
   const { register, handleSubmit } = useForm();
   const [userAuth, setUserAuth] = useState({});
   const [checked, setChecked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  connectAuthEmulator(auth, "http://localhost:9099/");
-  // take the data from the other thing
+  // change to 'sign' in? 
   const loginEmailPassword = async (data) => {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      data.email,
-      data.password
-    );
-    console.log(userCredential.user);
+    try { 
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      // take the user back to the main page
+      // switch the sign up/in to sign out
+    } catch(error) {
+      console.error("Error signing in:")
+      // show error message in alert
+    }
   };
 
-  const signUpEmailPassword = () => {
-    console.log('lets sign up')
+  const signUpEmailPassword = async (data) => {
+    try { 
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      console.log("user signed up:", userCredential.user)
+      // add a pop up that checks it?
+    } catch(error) {
+      console.error("Error signing up:", error.message)
+    }
+    // show errors to user
+    // There is already an account with this email
+    // set a thing and do conditional rendering 
   }
 
   return (
@@ -78,8 +86,6 @@ function LoginPage({ auth }) {
             </Field>
             <Field>
               <PasswordInput {...register("password", { required: true })} />
-              {/* only show this if it is signup */}
-              {!checked && <PasswordStrengthMeter />}
             </Field>
           </Fieldset.Content>
           <Button type="submit" alignSelf="flex-start">
@@ -87,7 +93,6 @@ function LoginPage({ auth }) {
           </Button>
         </Fieldset.Root>
       </form>
-      {/* down here is a thing that sets a boolean which sets the thing  */}
     </Box>
   );
 }
