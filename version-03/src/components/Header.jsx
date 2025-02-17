@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router";
-import { Heading, Flex, Box } from "@chakra-ui/react";
+import { Heading, Flex, Box, Text } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon as faSolidMoon } from "@fortawesome/free-solid-svg-icons";
 import { faMoon as faRegularMoon } from "@fortawesome/free-regular-svg-icons";
@@ -9,7 +9,7 @@ import { useColorMode } from "./ui/color-mode";
 
 // should it be sticky?
 
-function Header() {
+function Header({ isSignedIn, signOutUser }) {
   // for light and dark mode
   const { toggleColorMode, colorMode } = useColorMode();
 
@@ -33,9 +33,13 @@ function Header() {
           <Heading as="h2" size="lg">
             {/* add a condition to this */}
             {/* When the user is logged in, it will show option to log out */}
-            <Link to="/login">
+            { isSignedIn ? (
+              <Text cursor="pointer" onClick={signOutUser}>Sign out</Text>
+            ) : (
+              <Link to="/login">
               Sign up/in
             </Link>
+            )}
           </Heading>
             <Heading as="h2" size="lg">
               <Link to="/saved-countries">

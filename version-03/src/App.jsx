@@ -9,7 +9,7 @@ import { Box } from "@chakra-ui/react";
 import countriesData from "../data.js";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
-import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
 import LoginPage from "./pages/LoginPage";
 
 // Your web app's Firebase configuration
@@ -27,14 +27,38 @@ const firebaseConfig = {
 
 function App() {
   const [countries, setCountries] = useState([]);
-  // How will I check to see if the user is signed in? 
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  
   // Firebase
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const auth = getAuth(app)
+  // Checks authentication status
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsSignedIn(true);
+        console.log("user signed in", user.email);
+      } else {
+        setIsSignedIn(false);
+        console.log("user is signed out");
+      }
+    });
+    // cleanup function to prevent memory leaks
+    // ask teachers about this
+    return () => unsubscribe();
+  }, [auth])
+  // Sign out
+  const signOutUser = async () => {
+    try {
+      // should I use variable? does it matter
+      await signOut(auth);
+      // add alert or pop up or something? 
+      console.log("they done signed out")
+    } catch(error) {
+      console.error(error)
+    }
+  }
 
   // Countries API call
   const fetchCountryData = async () => {
@@ -55,10 +79,9 @@ function App() {
     fetchCountryData();
   }, []);
 
-
   return (
     <>
-      <Header />
+      <Header isSignedIn={isSignedIn} signOutUser={signOutUser} />
       <Box bg="bg.muted" height="vh">
         <Routes>
           <Route path="/" element={<HomePage countries={countries} database={database} />} />
