@@ -17,16 +17,18 @@ import { Field } from "../components/ui/field";
 import CountryCard from "../components/CountryCard";
 import { ref, set, child, get } from "firebase/database";
 
+// It Works!!
+/// there is now the same issue with the saved countries showing up late
+// and now doesn't say welcome name. 
+
+
 function SavedCountries({ countries, database, auth, onAuthStateChanged }) {
   const { register, handleSubmit } = useForm();
   const [userProfile, setUserProfile] = useState(null);
   const [userSavedCountries, setUserSavedCountries] = useState(null);
 
-  // // change these to work with the new database, will need auth 
   const onSubmit = (data) => {
     if (!userProfile) {
-      // this is gonna have to change when the user has authentication and stuff 
-      // anything with this number will have to change
       set(ref(database, "users/" + auth.currentUser.uid), {
         // add numbering system later
         fullName: data.fullName,
@@ -38,25 +40,24 @@ function SavedCountries({ countries, database, auth, onAuthStateChanged }) {
     }
   };
 
-  // // INTERACT WITH DATABASE
-  // // change numbering later
-  // const getDatabseProfile = async () => {
-  //   const dbRef = ref(database);
-  //   try {
-  //     await get(child(dbRef, `users/${1}`)).then((snapshot) => {
-  //       if (snapshot.exists()) {
-  //         setUserProfile(snapshot.val());
-  //       } else {
-  //         console.log("no data");
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  // INTERACT WITH DATABASE
+  // change numbering later
+  const getDatabseProfile = async () => {
+    const dbRef = ref(database);
+    try {
+      await get(child(dbRef, `users/${auth.currentUser.uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          setUserProfile(snapshot.val());
+        } else {
+          console.log("no data");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("User signed in:", user.email);
@@ -75,29 +76,28 @@ function SavedCountries({ countries, database, auth, onAuthStateChanged }) {
   }, []);
 
 
-
-  // const getDatabaseSavedCountries = async () => {
-  //   const dbRef = ref(database);
-  //   try {
-  //     await get(child(dbRef, `users/${1}/savedCountries`)).then((snapshot) => {
-  //       if (snapshot.exists()) {
-  //         let databaseSavedCountries = snapshot.val();
-  //         console.log(databaseSavedCountries)
-  //         let savedCountryObjects = countries.filter((item) => databaseSavedCountries.includes(item.name.common));    
-  //         // it's not getting countries quick enough sometimes. When I reoload just this page, so I think it may be the API    
-  //         setUserSavedCountries(savedCountryObjects)
-  //       } else {
-  //         console.log("no data")
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-  // useEffect(() => {
-  //   getDatabseProfile();
-  //   getDatabaseSavedCountries();
-  // }, []);
+  const getDatabaseSavedCountries = async () => {
+    const dbRef = ref(database);
+    try {
+      await get(child(dbRef, `users/${auth.currentUser.uid}/savedCountries`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          let databaseSavedCountries = snapshot.val();
+          console.log(databaseSavedCountries)
+          let savedCountryObjects = countries.filter((item) => databaseSavedCountries.includes(item.name.common));    
+          // it's not getting countries quick enough sometimes. When I reoload just this page, so I think it may be the API    
+          setUserSavedCountries(savedCountryObjects)
+        } else {
+          console.log("no data")
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    getDatabseProfile();
+    getDatabaseSavedCountries();
+  }, []);
 
   return (
     <>
