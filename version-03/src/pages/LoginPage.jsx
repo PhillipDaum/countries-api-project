@@ -62,6 +62,9 @@ function LoginPage({ auth }) {
       setTimeout(() => { navigate("/");}, 2000);
     } catch (error) {
       console.error(error.message);
+      if (error.message === "Firebase: Error (auth/invalid-credential)."){
+        setAlertMessage(alerts.inCorrectPasswordEmail);
+      }
       // show error message in alert
     }
   };

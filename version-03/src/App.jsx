@@ -87,12 +87,12 @@ function App() {
           <Route path="/" element={<HomePage countries={countries} database={database} />} />
           <Route
             path="/saved-countries"
-            element={<SavedCountries countries={countries} database={database}/>}
+            element={<SavedCountries countries={countries} database={database} auth={auth} onAuthStateChanged={onAuthStateChanged}/>}
           />
           <Route path="/login" element={<LoginPage auth={auth}/>}/>
           <Route
             path="/country-page/:oneCountry"
-            element={<CountryPage countries={countries} database={database} />}
+            element={<CountryPage countries={countries} database={database} auth={auth}/>}
           />
         </Routes>
       </Box>

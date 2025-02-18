@@ -5,12 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Image, Flex, Card, Box, Text } from "@chakra-ui/react";
 import { Button } from "../components/ui/button";
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, get } from "firebase/database";
 
 // save button is in wrong spot for mobile
-// change button colors
-
-function CountryPage({ countries, database }) {
+// maybe change button colors
+function CountryPage({ countries, database, auth }) {
   const { oneCountry } = useParams();
   const [country, setCountry] = useState(null);
   const [borderCountries, setBorderCountries] = useState([]);
@@ -23,30 +22,44 @@ function CountryPage({ countries, database }) {
   useEffect(() => {
     if (country && "borders" in country) {
       setBorderCountries(
+        // would this cause any issues for countries withoug FIFA codes?
         countries.filter((item) => country.borders.includes(item.fifa))
       );
     }
   }, [country]);
 
   // is async built into this?
-  // change later for numbering
   const saveCountries = () => {
-    let databaseSavedCountries;
-    onValue(ref(database, `users/${1}/savedCountries`), (snapshot) => {
-      databaseSavedCountries = snapshot.val();
-    });
-    if (databaseSavedCountries) {
-      if (databaseSavedCountries.includes(country.name.common)) {
-        console.log("you already saved this country");
-      } else {
-        set(ref(database, `users/${1}/savedCountries`), [
-          ...databaseSavedCountries,
-          country.name.common,
-        ]);
-      }
-    } else {
-      set(ref(database, `users/${1}/savedCountries`), [country.name.common]);
+    const user = auth.currentUser;
+    console.log("user", user);
+
+    if (!user) {
+      console.log("User is not signed in.")
+      // toast or something
+      return;
     }
+
+    const userId = user.uid;
+    const userSavedCountriesRef = ref(database, `users/${userId}/savedCountries`);
+
+    // refactor? 
+    get(userSavedCountriesRef).then((snapshot) => {
+      let databaseSavedCountries = snapshot.val();
+  
+      if (databaseSavedCountries) {
+        if (databaseSavedCountries.includes(country.name.common)) {
+          console.log("You already saved this country");
+        } else {
+          set(userSavedCountriesRef, [...databaseSavedCountries, country.name.common]);
+          console.log("saved it! 1");
+          // add toast
+        }
+      } else {
+        set(userSavedCountriesRef, [country.name.common]);
+        console.log("saved it! 2")
+        // add toast
+      }
+    });
   };
 
   // updates country counts from database
