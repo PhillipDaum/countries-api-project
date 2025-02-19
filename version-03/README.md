@@ -45,3 +45,13 @@ As mentioned above, there are many ways to host your project for free. Our recom
 
 - [Netlify](https://www.netlify.com/)
 - [Vercel](https://vercel.com/)
+
+
+## notes
+- login flow with user authentication (password/email) using Firebase SDK 
+- have a section at the beginning with the projects tech stack
+    - react, firebase, REST Countries API, Vite, Chakra UI
+    - talk about versions (local storage, firebase, later own SQL API layer)
+- Some errors are visible to users, the ones that they care about, others are only in the console. - search up error handling on the user end for what they care about 
+    - implemented user feedback 
+    - UX feedback messages for ..... 

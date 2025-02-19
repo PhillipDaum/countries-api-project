@@ -9,6 +9,7 @@ import { ref, set, onValue, get } from "firebase/database";
 import { Toaster, toaster } from "../components/ui/toaster"
 
 // save button is in wrong spot for mobile
+// 
 // maybe change button colors
 function CountryPage({ countries, database, auth }) {
   const { oneCountry } = useParams();
@@ -88,7 +89,7 @@ function CountryPage({ countries, database, auth }) {
           <Text>Loading...</Text>
         </Flex>
       ) : (
-        <Flex flexDirection="column" padding="3rem" maxW="vw">
+        <Flex flexDirection="column" padding="3rem" height="100vh" maxW="vw">
           {/* How is this button method for screen readers? */}
           <Link to="/">
             <Button
