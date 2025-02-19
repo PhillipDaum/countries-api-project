@@ -19,7 +19,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 
-function LoginPage({ auth }) {
+function SigninPage({ auth }) {
   const { register, handleSubmit } = useForm();
   const [checked, setChecked] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
@@ -89,11 +89,9 @@ function LoginPage({ auth }) {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
-      {/* add better, centered, vertical alignment  */}
-      {/* Sign up  -- the profile creation can stay on the saved countries page for now. */}
-      {/* design this cuter  */}
-      <SimpleGrid columns={2}>
+    <Box display="flex" flexDirection="column" alignItems="center" height="100vh">
+      <SimpleGrid paddingTop="3rem" columns={2}>
+        {/* design cuter, switch */}
         <Text>Sign up</Text>
         <Switch
           checked={checked}
@@ -116,7 +114,6 @@ function LoginPage({ auth }) {
             )}
           </Stack>
           <Fieldset.Content>
-            {/* email and password */}
             <Field>
               <Input
                 {...register("email", { required: true })}
@@ -145,4 +142,4 @@ function LoginPage({ auth }) {
   );
 }
 
-export default LoginPage;
+export default SigninPage;

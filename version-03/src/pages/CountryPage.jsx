@@ -6,6 +6,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Image, Flex, Card, Box, Text } from "@chakra-ui/react";
 import { Button } from "../components/ui/button";
 import { ref, set, onValue, get } from "firebase/database";
+import { Toaster, toaster } from "../components/ui/toaster"
 
 // save button is in wrong spot for mobile
 // maybe change button colors
@@ -28,14 +29,15 @@ function CountryPage({ countries, database, auth }) {
     }
   }, [country]);
 
-  // is async built into this?
   const saveCountries = () => {
     const user = auth.currentUser;
-    console.log("user", user);
 
     if (!user) {
       console.log("User is not signed in.")
-      // toast or something
+      toaster.create({
+        description: "User must sign in to save countries",
+        type: "warning"
+      })
       return;
     }
 
@@ -48,9 +50,16 @@ function CountryPage({ countries, database, auth }) {
   
       if (databaseSavedCountries) {
         if (databaseSavedCountries.includes(country.name.common)) {
-          console.log("You already saved this country");
+          toaster.create({
+            description: `${country.name.common} is already in your saved countries.`,
+            type: "warning"
+          })
         } else {
           set(userSavedCountriesRef, [...databaseSavedCountries, country.name.common]);
+          toaster.create({
+            description: `${country.name.common} saved!`,
+            type: "success"
+          })
           console.log("saved it! 1");
           // add toast
         }
@@ -83,7 +92,7 @@ function CountryPage({ countries, database, auth }) {
           {/* How is this button method for screen readers? */}
           <Link to="/">
             <Button
-              aria-label={`Save ${country.name.common} to your saved countries`}
+              aria-label="Go back"
               maxW="5rem"
             >
               <FontAwesomeIcon icon={faArrowLeft} /> Back
@@ -185,6 +194,7 @@ function CountryPage({ countries, database, auth }) {
           </Box>
         </Flex>
       )}
+      <Toaster />
     </>
   );
 }

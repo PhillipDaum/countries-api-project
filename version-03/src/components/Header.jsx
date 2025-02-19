@@ -31,12 +31,10 @@ function Header({ isSignedIn, signOutUser }) {
           </Heading>
           <Flex flexDirection="row" gap="1rem">
           <Heading as="h2" size="lg">
-            {/* add a condition to this */}
-            {/* When the user is logged in, it will show option to log out */}
             { isSignedIn ? (
               <Text cursor="pointer" onClick={signOutUser}>Sign out</Text>
             ) : (
-              <Link to="/login">
+              <Link to="/signin">
               Sign up/in
             </Link>
             )}

@@ -6,11 +6,12 @@ import HomePage from "./pages/HomePage";
 import SavedCountries from "./pages/SavedCountries";
 import CountryPage from "./pages/CountryPage";
 import { Box } from "@chakra-ui/react";
+import { Toaster, toaster } from "./components/ui/toaster"
 import countriesData from "../data.js";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
-import LoginPage from "./pages/LoginPage";
+import SigninPage from "./pages/SigninPage";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -51,9 +52,11 @@ function App() {
   // Sign out
   const signOutUser = async () => {
     try {
-      // should I use variable? does it matter
       await signOut(auth);
-      // add alert or pop up or something? 
+      toaster.create({
+        description: "Sign out successful, come back soon!",
+        type: "info"
+      })
       console.log("they done signed out")
     } catch(error) {
       console.error(error)
@@ -82,20 +85,21 @@ function App() {
   return (
     <>
       <Header isSignedIn={isSignedIn} signOutUser={signOutUser} />
-      <Box bg="bg.muted" height="vh">
+      <Box bg="bg.muted">
         <Routes>
           <Route path="/" element={<HomePage countries={countries} database={database} />} />
           <Route
             path="/saved-countries"
-            element={<SavedCountries countries={countries} database={database} auth={auth} onAuthStateChanged={onAuthStateChanged}/>}
+            element={<SavedCountries countries={countries} isSignedIn={isSignedIn} database={database} auth={auth} onAuthStateChanged={onAuthStateChanged}/>}
           />
-          <Route path="/login" element={<LoginPage auth={auth}/>}/>
+          <Route path="/signin" element={<SigninPage auth={auth}/>}/>
           <Route
             path="/country-page/:oneCountry"
             element={<CountryPage countries={countries} database={database} auth={auth}/>}
           />
         </Routes>
       </Box>
+      <Toaster />
     </>
   );
 }
