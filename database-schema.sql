@@ -37,3 +37,19 @@ VALUES
  ('1234', '0012', '134124','Columbia'),
  ('1235', '0012', '004', 'Germany'),
  ('1236', '0012', '001', 'Mexico');
+
+
+ -- Example Queries
+ -- retrieve country click counts
+ SELECT country_id, search_count
+ FROM country_counts;
+
+ -- retrieve user's saved countries
+ SELECT country_id
+ FROM saved_countries
+ WHERE user_id = '0012';
+
+ -- retrieve user's name to put under saved countries
+ SELECT full_name
+ FROM users
+ WHERE user_id = '0012';
