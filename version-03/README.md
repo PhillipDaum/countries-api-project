@@ -54,4 +54,40 @@ As mentioned above, there are many ways to host your project for free. Our recom
     - talk about versions (local storage, firebase, later own SQL API layer)
 - Some errors are visible to users, the ones that they care about, others are only in the console. - search up error handling on the user end for what they care about 
     - implemented user feedback 
-    - UX feedback messages for ..... 
+    - Implemented UX feedback messages for user authentication adressing password validation and error handling
+    - explain more about what the firebase SDK does.... 
+    - look up some firebase words like realtime database definition and specifics about how the authentication works in the browser, saving tokens in weird places and stuff. 
+    - no sql databse using expression based around userauth and databse
+    - what tokens are being stored and what form they are in. - what's the tool that is used to validate, it is in 
+    - IndexedDB - object of key value pairs as a way to authenticate the user.
+
+
+
+
+
+    ### copied notes from firebase
+    - Store and sync data with our NoSQL cloud database. Data is synced across all clients in realtime, and remains available when your app goes offline.
+    - Data is stored as JSON and synchronized in realtime to every connected client
+    
+
+    ### from chat GPT
+
+User Authentication & Data Persistence with Firebase
+
+Developed a robust login flow using the Firebase SDK that enables secure email/password authentication.
+The solution leverages Firebase’s authentication module and Realtime Database to seamlessly manage user sessions—persisting authentication tokens in the browser’s IndexedDB for secure, persistent access.
+ 
+Only user-relevant errors are surfaced in the UI (e.g., password validation and common authentication errors), while technical errors remain in the console for debugging.
+
+Tech Stack:
+
+Front End: React, Vite, Chakra UI
+
+Backend & Data: Firebase (Authentication & Realtime Database), REST Countries API
+
+Future Enhancements: Transitioning from Firebase’s NoSQL approach and local storage mechanisms to a dedicated SQL API layer for enhanced data management.
+
+This project demonstrates my ability to integrate modern front-end technologies with secure, scalable back-end services, ensuring a user-friendly experience through thoughtful error handling and responsive feedback.
+
+
+JSON WEB TOKEN (JWT)
