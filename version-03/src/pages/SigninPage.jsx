@@ -105,7 +105,7 @@ function SigninPage({ auth }) {
           checked ? loginEmailPassword : signUpEmailPassword
         )}
       >
-        <Fieldset.Root size="lg" maxW="lg" minW="md">
+        <Fieldset.Root size="lg" maxW="lg" minW={{base:"", md:"md"}}>
           <Stack>
             {checked ? (
               <Fieldset.Legend>Sign In</Fieldset.Legend>
