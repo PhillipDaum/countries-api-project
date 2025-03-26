@@ -16,7 +16,7 @@ import {
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function HomePage({ countries, database, countSearches }) {
+function HomePage({ countries, databaseAPIEndpoint }) {
   // SELECTED COUNTRIES WHICH DISPLAY
   const [userSelectedCountries, setUserSelectedCountries] = useState([]);
 
@@ -112,7 +112,7 @@ function HomePage({ countries, database, countSearches }) {
           gap={{ base: "1rem", xl: "1.5rem" }}
         >
           <For each={userSelectedCountries}>
-            {(country, index) => <CountryCard key={index} country={country} database={database}/>}
+            {(country, index) => <CountryCard key={index} country={country} databaseAPIEndpoint={databaseAPIEndpoint}/>}
           </For>
         </SimpleGrid>
       </Box>

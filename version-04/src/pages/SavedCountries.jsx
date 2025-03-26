@@ -15,64 +15,64 @@ import {
 import { useForm } from "react-hook-form";
 import { Field } from "../components/ui/field";
 import CountryCard from "../components/CountryCard";
-import { ref, set, child, get } from "firebase/database";
 
 function SavedCountries({ countries, database }) {
   const { register, handleSubmit } = useForm();
   const [userProfile, setUserProfile] = useState(null);
   const [userSavedCountries, setUserSavedCountries] = useState(null);
 
-  const onSubmit = (data) => {
-    if (!userProfile) {
-      set(ref(database, "users/" + 1), {
-        // add numbering system later
-        fullName: data.fullName,
-        country: data.country,
-        email: data.email,
-        bio: data.bio,
-      });
-      setUserProfile(data);
+  const onSubmit = async (data) => {
+    try {
+      const callURL = `/api/add-user/`
+      const response = await fetch(callURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify JSON content
+        },
+        body: JSON.stringify(data)
+      })
+      let result = await response.text();
+      console.log("success:", result);
+    } catch (error) {
+      console.error("error adding user:", error)
     }
+
   };
 
-  // INTERACT WITH DATABASE
-  // change numbering later
+  // hardcoded in a user ID
   const getDatabseProfile = async () => {
-    const dbRef = ref(database);
     try {
-      await get(child(dbRef, `users/${1}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          setUserProfile(snapshot.val());
-        } else {
-          console.log("no data");
-        }
+      const id = 3;
+      const callURL = `/api/users/${id}`;
+      const response = await fetch(callURL, {
+        method: "GET",
       });
+      const data = await response.json();
+      setUserProfile(data[0])
     } catch (error) {
-      console.log(error);
+      console.error("Error saving country:", error);
     }
   };
   const getDatabaseSavedCountries = async () => {
-    const dbRef = ref(database);
     try {
-      await get(child(dbRef, `users/${1}/savedCountries`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          let databaseSavedCountries = snapshot.val();
-          console.log(databaseSavedCountries)
-          let savedCountryObjects = countries.filter((item) => databaseSavedCountries.includes(item.name.common));    
-          // it's not getting countries quick enough sometimes. When I reoload just this page, so I think it may be the API    
-          setUserSavedCountries(savedCountryObjects)
-        } else {
-          console.log("no data")
-        }
+      const callURL = `/api/saved-countries`;
+      const response = await fetch(callURL, {
+        method: "GET",
       });
+      let data = await response.json();
+      data = data.map((item) => item.cca3);
+      if (data.length > 0) {
+        setUserSavedCountries(countries.filter((item) => data.includes(item.cca3)));
+      };
     } catch (error) {
-      console.log(error)
+      console.error("Error getting saved countries:", error);
     }
   }
+
   useEffect(() => {
     getDatabseProfile();
     getDatabaseSavedCountries();
-  }, []);
+  }, [userSavedCountries]);
 
   return (
     <>
@@ -80,7 +80,7 @@ function SavedCountries({ countries, database }) {
         display="flex"
         padding="4"
         flexDirection="column"
-        height="vh"
+        bg="bg.muted"
         gap="8"
       >
         <Heading as="h2" size="xl">
@@ -97,8 +97,9 @@ function SavedCountries({ countries, database }) {
         ) : (
           <p>Your saved countries will show up here!</p>
         )}
+        {/* Added additional user profile in alternate condition to demonstrate API enpoint to add user */}
         {!userProfile ? (
-          <form onSubmit={handleSubmit(onSubmit)} action="">
+          <form onSubmit={handleSubmit(onSubmit)} action="POST">
             <Fieldset.Root size="lg" maxW="lg" minW="md">
               <Stack>
                 <Fieldset.Legend>My Profile</Fieldset.Legend>
@@ -136,7 +137,46 @@ function SavedCountries({ countries, database }) {
             </Fieldset.Root>
           </form>
         ) : (
-          <Text fontSize="lg">Welcome {userProfile.fullName}</Text>
+          <>
+          <Text fontSize="lg">Welcome {userProfile.full_name}</Text>
+          <form onSubmit={handleSubmit(onSubmit)} action="POST">
+            <Fieldset.Root size="lg" maxW="lg" minW="md">
+              <Stack>
+                <Fieldset.Legend>My Profile</Fieldset.Legend>
+              </Stack>
+              <Fieldset.Content>
+                <Field>
+                  <Input
+                    {...register("fullName", { required: true })}
+                    placeholder="Full Name"
+                  />
+                </Field>
+                <Field>
+                  <Input
+                    {...register("email", { required: true })}
+                    placeholder="email"
+                    type="Email"
+                  />
+                </Field>
+                <Field>
+                  <Input
+                    {...register("country", { required: true })}
+                    placeholder="country"
+                  />
+                </Field>
+                <Field>
+                  <Textarea
+                    {...register("bio", { required: false })}
+                    placeholder="Bio"
+                  />
+                </Field>
+              </Fieldset.Content>
+              <Button type="submit" alignSelf="flex-start">
+                Submit
+              </Button>
+            </Fieldset.Root>
+          </form>
+          </>
         )}
       </Box>
     </>

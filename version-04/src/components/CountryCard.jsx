@@ -1,27 +1,33 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { Box, Image, Text, Flex } from "@chakra-ui/react";
-import { ref, onValue, set } from "firebase/database";
 
-function CountryCard({ country, database }) {
-  // maybe the bug is those that don't have Fifa codes, use common name
-  const countSearches = () => {
-    let keyName = country.name.common;
-    let value;
-    onValue(ref(database, "counts/" + `${keyName}/`), (snapshot) => {
-      value = snapshot.val();
-    } );
-    if (value) {
-      value++;
-      set(ref(database, 'counts/' + `${keyName}/`), value);
-    } else {
-      set(ref(database, 'counts/' + `${keyName}/`),  1 );
+function CountryCard({ country }) {
+
+  const incrementClickCount = async () => {
+    try {
+      const key = country.cca3;
+      const callURL = `/api/update-count/${key}`;
+      const response = await fetch(callURL, {
+        method: 'GET',
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.text();
+      console.log('Success:', data);
+    } catch (error) {
+      console.error('Error incrementing click count:', error);
     }
   };
+  
 
   return (
-    <Link to={`/country-page/${country.name.common}`} onClick={countSearches}>
+    <Link to={`/country-page/${country.name.common}`} >
       <Box
+        onClick={() => incrementClickCount()}
         bg="bg.panel"
         borderRadius="lg"
         overflow="hidden"

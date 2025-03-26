@@ -14,7 +14,7 @@ app.listen(port, () => {
 
 // API ENDPOINTS countries are saved with cca3 codes
 // Retrieve all country clicked counts
-app.get("/counts", async (req, res) => {
+app.get("/counts/", async (req, res) => {
   let countries = await getAllCountryCounts();
   let JSONcountries = JSON.stringify(countries);
   res.send(JSONcountries);
@@ -74,13 +74,14 @@ const updateSpecificCountryCount = async (cca3) => {
 };
 
 // Create a new user profile
-app.get("/add-user/", async (req, res) => {
+app.post("/add-user/", async (req, res) => {
   await addOneUser(req.body);
   res.send(`New user profile added.`);
 });
 const addOneUser = async (obj) => {
   const client = new Client(config);
   await client.connect();
+  console.log(obj)
   await client.query(
     `INSERT INTO users (full_name, country, email, bio) VALUES ('${obj.fullName}', '${obj.country}', '${obj.email}', '${obj.bio}');`
   );

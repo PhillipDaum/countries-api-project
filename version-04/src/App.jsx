@@ -7,28 +7,9 @@ import SavedCountries from "./pages/SavedCountries";
 import CountryPage from "./pages/CountryPage";
 import { Box } from "@chakra-ui/react";
 import countriesData from "../data.js";
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAH0eF3LnQhXX62jdRlHZMkMmE0Yc9BljM",
-  authDomain: "countries-api-6f83d.firebaseapp.com",
-  databaseURL: "https://countries-api-6f83d-default-rtdb.firebaseio.com",
-  projectId: "countries-api-6f83d",
-  storageBucket: "countries-api-6f83d.firebasestorage.app",
-  messagingSenderId: "513877725077",
-  appId: "1:513877725077:web:1cb596c7f1452df014709c",
-  measurementId: "G-2XE45XWPBE",
-};
 
 function App() {
   const [countries, setCountries] = useState([]);
-
-  // Firebase
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
 
   // API call
   const fetchCountryData = async () => {
@@ -55,14 +36,14 @@ function App() {
       <Header />
       <Box bg="bg.muted" height="vh">
         <Routes>
-          <Route path="/" element={<HomePage countries={countries} database={database} />} />
+          <Route path="/" element={<HomePage countries={countries} />} />
           <Route
             path="/saved-countries"
-            element={<SavedCountries countries={countries} database={database}/>}
+            element={<SavedCountries countries={countries} />}
           />
           <Route
             path="/country-page/:oneCountry"
-            element={<CountryPage countries={countries} database={database} />}
+            element={<CountryPage countries={countries} />}
           />
         </Routes>
       </Box>

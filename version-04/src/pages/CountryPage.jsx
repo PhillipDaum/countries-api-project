@@ -5,16 +5,61 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Image, Flex, Card, Box, Text } from "@chakra-ui/react";
 import { Button } from "../components/ui/button";
-import { ref, set, onValue } from "firebase/database";
 
 // save button is in wrong spot for mobile
 // change button colors
 
-function CountryPage({ countries, database }) {
+function CountryPage({ countries }) {
   const { oneCountry } = useParams();
   const [country, setCountry] = useState(null);
   const [borderCountries, setBorderCountries] = useState([]);
-  const [countryCounts, setCountryCounts] = useState({});
+  const [CountryCount, setCountryCount] = useState({});
+
+  // change later for numbering
+  const saveCountry = async () => {
+    try {
+      const key = country.cca3;
+      const callURL = `/api/add-saved-country/${key}`;
+      const response = await fetch(callURL, {
+        method: "GET",
+      });
+      const data = await response.text();
+      console.log(data);
+    } catch (error) {
+      console.error("Error saving country:", error);
+    }
+  };
+
+  const incrementClickCount = async (key) => {
+    try {
+      const callURL = `/api/update-count/${key}`;
+      const response = await fetch(callURL, {
+        method: 'GET',
+      });
+
+  
+      const data = await response.text();
+      console.log('Success:', data);
+    } catch (error) {
+      console.error('Error incrementing click count:', error);
+    }
+  };
+  
+
+  // updates country counts from database
+  const getCountryCount = async () => {
+    try {
+      const key = country.cca3;
+      const callURL = `/api/counts/${key}`;
+      const response = await fetch(callURL, {
+        method: "GET",
+      });
+      const data = await response.json();
+      setCountryCount(data[0].search_count);
+    } catch (error) {
+      console.error("Error getting clicked count", error);
+    }
+  };
 
   useEffect(() => {
     setCountry(countries.filter((item) => item.name.common === oneCountry)[0]);
@@ -28,36 +73,9 @@ function CountryPage({ countries, database }) {
     }
   }, [country]);
 
-  // is async built into this?
-  // change later for numbering
-  const saveCountries = () => {
-    let databaseSavedCountries;
-    onValue(ref(database, `users/${1}/savedCountries`), (snapshot) => {
-      databaseSavedCountries = snapshot.val();
-    });
-    if (databaseSavedCountries) {
-      if (databaseSavedCountries.includes(country.name.common)) {
-        console.log("you already saved this country");
-      } else {
-        set(ref(database, `users/${1}/savedCountries`), [
-          ...databaseSavedCountries,
-          country.name.common,
-        ]);
-      }
-    } else {
-      set(ref(database, `users/${1}/savedCountries`), [country.name.common]);
-    }
-  };
-
-  // updates country counts from database
-  // it works but the console log only works the second time  
   useEffect(() => {
-    onValue(ref(database, "counts/"), (snapshot) => {
-      console.log(snapshot.val())
-      setCountryCounts(snapshot.val());
-    });
-    console.log("country counts", countryCounts);
-  }, []);
+    if (country) getCountryCount();
+  }, [country]);
 
   return (
     <>
@@ -106,7 +124,7 @@ function CountryPage({ countries, database }) {
                       >
                         <Card.Title>{country.name.common}</Card.Title>
                         <Button
-                          onClick={saveCountries}
+                          onClick={saveCountry}
                           aria-label={`Save ${country.name.common} to your saved countries`}
                         >
                           Save Country
@@ -138,7 +156,7 @@ function CountryPage({ countries, database }) {
                           Searched For:{" "}
                         </Text>
                         {/* change, I will need a variable or something to do this. This is for a later date */}
-                        { country.name.common in countryCounts ? countryCounts[country.name.common] : "0" }
+                        {CountryCount > 0 ? CountryCount : "0"}
                       </Text>
                     </Box>
                   </Card.Body>
@@ -151,14 +169,13 @@ function CountryPage({ countries, database }) {
                       {borderCountries.length === 0 ? (
                         <Text fontSize="sm">None</Text>
                       ) : (
-                        // should the key be the index? or is this good?
                         borderCountries.map((item) => (
                           <Link
                             key={item.name.common}
                             to={`/country-page/${item.name.common}`}
                           >
                             {/* adding colors and borders */}
-                            <Button bg="gray.focusRing">
+                            <Button bg="gray.focusRing" onClick={() => incrementClickCount(item.cca3)}>
                               {item.name.common}
                             </Button>
                           </Link>
