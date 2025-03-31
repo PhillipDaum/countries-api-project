@@ -11,7 +11,6 @@ const config = {
   ssl: true
 }
 
-
 const app = express();
 const port = 3000;
 
