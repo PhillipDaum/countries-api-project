@@ -1,16 +1,7 @@
 import express from "express"; //external module for using express
 import pg from "pg";
 const { Client } = pg; //external module for using postgres with node
-
-const config = {
-  user: process.env.USER,
-  host: process.env.host,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
-  port: process.env.DATABASE_PORT,
-  ssl: true
-}
-
+import config from "./config.js"; // internal module for connecting to  config file
 
 const app = express();
 const port = 3000;
