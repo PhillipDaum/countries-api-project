@@ -20,15 +20,6 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
-// adding reccomended from GPT
-app.use((req, res, next) => {
-  if (req.url.endsWith('.js')) {
-    res.type('application/javascript');
-  }
-  next();
-});
-
-
 // API ENDPOINTS countries are saved with cca3 codes
 // Retrieve all country clicked counts
 app.get("/counts/", async (req, res) => {
